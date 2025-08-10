@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/blog_db
+    username: postgres
+    password: 123456
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.example.blog.entity
+  configuration:
+    map-underscore-to-camel-case: true  # 开启下划线转驼峰
+
+jwt:
+  secret: BewZleQiXIFurAMmu3jCz3+m3HtbV+A1bFPdnQfOmbg=
+  expire-seconds: 3600  # token 存活秒数 (1小时)
+  issuer: my-auth-server
+

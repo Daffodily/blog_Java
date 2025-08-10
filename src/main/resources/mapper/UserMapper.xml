@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.blog.mapper.UserMapper">
+
+    <select id="findByPhone"  resultType="org.example.blog.entity.User">
+        SELECT * FROM "user" WHERE phone_number = #{mobilePhoneNum}
+    </select>
+
+    <insert id="insertUser" parameterType="org.example.blog.entity.User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO "user" (phone_number, password, username, created_time, updated_time)
+        VALUES (#{phoneNumber}, #{password}, #{username}, #{createTime}, #{updateTime})
+    </insert>
+
+</mapper>
