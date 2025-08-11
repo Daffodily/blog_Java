@@ -19,36 +19,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, Object> handleValidationException(MethodArgumentNotValidException e) {
 
-        log.error("parameter verification failed", e);
+        log.error("parameter verification failed: {}", e.getMessage());
 
         FieldError fieldError = e.getBindingResult().getFieldError();
 
         if (fieldError != null) {
             String msg = fieldError.getDefaultMessage();
-            if ("PhoneNumInvalid".equals(msg)) return Response.fail(-20001);
-            if ("PasswordInvalid".equals(msg))  return Response.fail(-20002);
-            if ("TokenInvalid".equals(msg))  return Response.fail(-20005);
+            if ("PhoneNumInvalid".equals(msg)) {
+                log.error("phone number invalid");
+                return Response.fail(-20001);
+            }
+            if ("PasswordInvalid".equals(msg)){
+                log.error("password invalid");
+                return Response.fail(-20002);
+            }
+            if ("TokenInvalid".equals(msg)){
+                log.error("token invalid");
+                return Response.fail(-20005);
+            }
         }
-
-        return Response.fail(-10000);
-    }
-
-    // JSON 解析错误
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public Map<String, Object> handleJsonParseError(HttpMessageNotReadableException e) {
-        log.error("Json parse error", e);
+        log.error("service exception");
         return Response.fail(-10000);
     }
 
     @ExceptionHandler(ServiceException.class)
     public Map<String, Object> handleServiceException(ServiceException e) {
-        log.error("service exception", e);
+        log.warn("service warning: {}", e.getMessage());
         return Response.fail(e.getCode());
     }
 
     @ExceptionHandler(Exception.class)
     public Map<String, Object> handleException(Exception e) {
-        log.error("unknown exception", e);
+        log.error("service exception ", e);
         return Response.fail(-10000);
     }
 }

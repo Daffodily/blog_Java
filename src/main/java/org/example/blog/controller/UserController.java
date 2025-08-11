@@ -27,43 +27,21 @@ public class UserController {
 
     @PostMapping("/register")
     public Map<String, Object> register(@Valid @RequestBody RegisterRequest req) {
-        Map<String, Object> res = new HashMap<>();
-        try {
-            res = userService.register(req);
-            return Response.success(res);
-        } catch (ServiceException e) {
-            return Response.fail(e.getCode());
-        } catch (Exception e) {
-            log.error("用户注册系统异常", e);
-            return Response.fail(-10000);
-        }
+        return Response.success(userService.register(req));
     }
 
     @PostMapping("/login")
     public Map<String, Object> login(@Valid @RequestBody LoginRequest req) {
-        Map<String, Object> res = new HashMap<>();
-        try {
-            return Response.success(userService.login(req));
-        } catch (ServiceException e) {
-            return Response.fail(e.getCode());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.fail(-10000);
-        }
+        return Response.success(userService.login(req));
+
     }
 
     @PostMapping("/logout")
     public Map<String, Object> logout(@Valid @RequestBody LogoutRequest req) {
         Map<String, Object> res = new HashMap<>();
-        try {
-            userService.logout(req);
-            res.put("code", 0);
-            return res;
-        } catch (ServiceException e) {
-            return Response.fail(e.getCode());
-        } catch (Exception e) {
-            return Response.fail(-10000);
-        }
+        userService.logout(req);
+        res.put("code", 0);
+        return res;
 
     }
 }
